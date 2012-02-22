@@ -23,6 +23,24 @@ namespace WindowsFormsApplication1Whois
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // kz tel su ru com bz mobi org net biz info tv me рф
+            
+            string topdomains = "kz tel su ru com bz mobi org net biz info tv me рф";
+
+            char[] arr = { ' ' };
+
+            string[] domains = topdomains.Split(arr);
+
+            for (int i = 0; i < domains.Length; ++i)
+            {
+                Domains.Items.Add(domains[i], true);
+            }
+
+            Domains.CheckOnClick = true;
+        }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
             //NameWhoIs.WhoIs srv = new NameWhoIs.WhoIs();
@@ -56,17 +74,17 @@ namespace WindowsFormsApplication1Whois
 
             if (!System.IO.File.Exists(TemporaryFilename))
             {
-                data += "Домены;";
-                for (int i = 0; i < domains.Length; ++i)
+                data += "Domain;";
+                for (int i = 0; i < Domains.CheckedItems.Count; ++i)
                 {
-                    data += domains[i] + ";";
+                    data += Domains.CheckedItems[i] + ";";
                 }
                 data += "\r\n";
             }
 
             data += txtDomain.Text + ";";
 
-            for (int i = 0; i < domains.Length; ++i)
+            for (int i = 0; i < Domains.CheckedItems.Count; ++i)
             {
                 /*
                 Krysalix.DomainChecker srv = new Krysalix.DomainChecker();
@@ -75,7 +93,7 @@ namespace WindowsFormsApplication1Whois
                 */
 
                 Krysalix.DomainChecker srv = new Krysalix.DomainChecker();
-                string domain = txtDomain.Text + "." + domains[i];
+                string domain = txtDomain.Text + "." + Domains.CheckedItems[i];
                 Krysalix.WhoisInfo info = srv.GetInfo(domain);
                 txtResult.Text += domain + " " + info.IsExists().ToString() + "\r\n";
                 txtResult.Text += "\t" + "state: " + info.GetValue("state") + "\r\n";
@@ -99,6 +117,8 @@ namespace WindowsFormsApplication1Whois
 
             writer.Close();
             sr.Close();
+
+            Domains.Enabled = false;
         }
 
 
@@ -136,6 +156,8 @@ namespace WindowsFormsApplication1Whois
             ShowSaveDialog();
             MessageBox.Show("Файл сохранен.");
         }
+
+
 
     }
 }
