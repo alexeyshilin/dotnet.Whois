@@ -134,6 +134,7 @@
             this.Controls.Add(this.btnScan);
             this.Controls.Add(this.txtResult);
             this.Controls.Add(this.txtDomain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form1";
             this.Text = "Domains";
             this.Load += new System.EventHandler(this.Form1_Load);
