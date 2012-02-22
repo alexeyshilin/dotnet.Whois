@@ -1,0 +1,1 @@
+﻿mono WindowsFormsApplication1Whois.exe
